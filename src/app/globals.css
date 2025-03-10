@@ -5,8 +5,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #395144;
+    --foreground: #F0EBCE;
     --font-geist-sans: "Geist Sans", sans-serif;
     --font-geist-mono: "Geist Mono", monospace;
   }
@@ -40,5 +40,6 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+    scroll-behavior: smooth;
   }
 }

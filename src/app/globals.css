@@ -18,7 +18,7 @@ html{
 }
 
 body {
-  background-color: var(--bg);
+  background: linear-gradient(to bottom, #395144, #EED3B1);
   color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -1,6 +1,6 @@
 import "./Login.css";
 import Image from "next/image";
-import LoginImage from "../../../assets/reb7e.png"
+import LoginImage from "../../../../public/reb7e.png"
 
 export default function LoginPage() {
     return (

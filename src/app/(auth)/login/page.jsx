@@ -2,7 +2,7 @@ import "./Login.css";
 import Image from "next/image";
 import LoginImage from "../../../assets/reb7e.png"
 
-export default function Login() {
+export default function LoginPage() {
     return (
         <div className="main">
             <input type="checkbox" id="chk" aria-hidden="true"/>

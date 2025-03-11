@@ -1,5 +1,7 @@
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/navbar/Navbar.jsx"
+import Footer from "@/components/footer/Footer.jsx"
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -14,14 +16,18 @@ const geistMono = Geist_Mono({
 export const metadata = {
     title: "AgriTech",
     icons: "/favicon.ico",
-    description: "Avocado Tree Detection System",
+    description: "An advanced system for detecting and monitoring avocado trees using cutting-edge technology to enhance agricultural efficiency and productivity.",
 };
 
 export default function RootLayout({children}) {
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+            <div className="container">
+                <Navbar />
+                {children}
+                <Footer />
+            </div>
         </body>
         </html>
     );

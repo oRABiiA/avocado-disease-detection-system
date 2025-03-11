@@ -1,45 +1,72 @@
+
+/*!*html,*!*/
+/*!*body {*!*/
+/*!*  max-width: 100vw;*!*/
+/*!*  overflow-x: hidden;*!*/
+/*!*}*!*/
+
+/*body {*/
+/*  color: var(--foreground);*/
+/*  background: var(--background);*/
+/*  font-family: Arial, Helvetica, sans-serif;*/
+/*  -webkit-font-smoothing: antialiased;*/
+/*  -moz-osx-font-smoothing: grayscale;*/
+/*}*/
+
+/*@media (prefers-color-scheme: dark) {*/
+/*  :root {*/
+/*    --background: #395144;*/
+/*    --foreground: #F0EBCE;*/
+/*    --font-geist-sans: "Geist Sans", sans-serif;*/
+/*    --font-geist-mono: "Geist Mono", monospace;*/
+/*  }*/
+/*}*/
+
+/*@media (prefers-color-scheme: dark) {*/
+/*  html {*/
+/*    color-scheme: dark;*/
+/*    scroll-behavior: smooth;*/
+/*  }*/
+/*}*/
+
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #395144;
+  --font-geist-sans: "Geist Sans", sans-serif;
+  --font-geist-mono: "Geist Mono", monospace;
+  --bgSoft: #638f66;
+  --text: #F0EBCE;
+  --btn: #AA8B56;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #395144;
-    --foreground: #F0EBCE;
-    --font-geist-sans: "Geist Sans", sans-serif;
-    --font-geist-mono: "Geist Mono", monospace;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
 a {
-  color: inherit;
   text-decoration: none;
+  color: inherit;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-    scroll-behavior: smooth;
-  }
+.container {
+  width: 1536px;
+  margin: auto;
+  padding-left: 50px;
+  padding-right: 50px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
+
+

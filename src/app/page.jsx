@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import styles from "./home.module.css";
-import verifiedLogo from "../../public/verified.svg"
+import verifiedLogo from "../../public/icons/verified.svg"
 import {useRouter} from "next/navigation";
+import ShowImage from "@/components/ShowImage/ShowImage.jsx"
 
 const Home = () => {
 
@@ -30,13 +31,13 @@ const Home = () => {
                     <br/>
                     <strong>Key Features:</strong>
                     <br/>
-                    <br/><Image src={verifiedLogo} alt="VerifiedLogo" width={18} height={18}/> Real-time monitoring of
+                    <br/><ShowImage imgPath = {verifiedLogo} imgAlt="VerifiedLogo" imgWidth={18} imgHeight={18}/> Real-time monitoring of
                     tree health
-                    <br/><Image src={verifiedLogo} alt="VerifiedLogo" width={18} height={18}/> Smart sensors tracking
+                    <br/><ShowImage imgPath = {verifiedLogo} imgAlt="VerifiedLogo" imgWidth={18} imgHeight={18}/> Smart sensors tracking
                     soil and air conditions
-                    <br/><Image src={verifiedLogo} alt="VerifiedLogo" width={18} height={18}/> AI-driven disease
+                    <br/><ShowImage imgPath = {verifiedLogo} imgAlt="VerifiedLogo" imgWidth={18} imgHeight={18}/> AI-driven disease
                     detection
-                    <br/><Image src={verifiedLogo} alt="VerifiedLogo" width={18} height={18}/> User-friendly dashboard
+                    <br/><ShowImage imgPath = {verifiedLogo} imgAlt="VerifiedLogo" imgWidth={18} imgHeight={18}/> User-friendly dashboard
                     for insights
                     <br/>
                     <br/>

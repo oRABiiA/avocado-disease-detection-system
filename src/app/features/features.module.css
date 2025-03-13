@@ -1,0 +1,46 @@
+.container {
+    text-align: center;
+    padding: 50px;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--btn);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+}
+
+.featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    justify-content: center;
+}
+
+.featureCard {
+    background: var(--bgSoft);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease;
+}
+
+.featureCard:hover {
+    transform: translateY(-10px);
+}
+
+.featureCard h2 {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+.featureCard p {
+    font-size: 1rem;
+    color: var(--text);
+    margin-top: 5px;
+}

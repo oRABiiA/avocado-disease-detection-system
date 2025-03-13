@@ -24,41 +24,72 @@ const links = [
     },
 ]
 
+// const Links = () => {
+//     const [open, setOpen] = useState(false);
+//
+//     return (
+//         <div className={styles.container}>
+//             <div className={styles.links}>
+//                 {links.map((link => (
+//                     <NavLink item={link} key={link.title}></NavLink>
+//                 )))}
+//                 {<NavLink item={{title: "Login", path: "/login"}}/>}
+//             </div>
+//             <Image
+//                 className={styles.menuButton}
+//                 src="/menu.png"
+//                 alt=""
+//                 width={30}
+//                 height={30}
+//                 onClick={() => setOpen((prev) => !prev)}
+//             />
+//             {open && (
+//                 <div className={`${styles.mobileLinks} ${open ? styles.show : ""}`}>
+//                     {links.map((link) => (
+//                         <NavLink item={link} key={link.title}/>
+//                     ))}
+//                     {<NavLink item={{title: "Login", path: "/login"}}/>}
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
+
 const Links = () => {
     const [open, setOpen] = useState(false);
 
-    // TEMPORARY
-    const session = false;
-
     return (
         <div className={styles.container}>
+            {/* Desktop Links */}
             <div className={styles.links}>
-                {links.map((link => (
-                    <NavLink item={link} key={link.title}></NavLink>
-                )))}
-                {session ? (
-                    <button className={styles.logout}>Logout</button>
-                ) : (
-                    <NavLink item={{title: "Login", path: "/login"}}/>
-                )}
+                {links.map((link) => (
+                    <NavLink item={link} key={link.title} />
+                ))}
+                <NavLink item={{ title: "Login", path: "/login" }} />
             </div>
+
+            {/* Mobile Menu Button */}
             <Image
                 className={styles.menuButton}
                 src="/menu.png"
-                alt=""
+                alt="Menu"
                 width={30}
                 height={30}
                 onClick={() => setOpen((prev) => !prev)}
             />
-            {open && (
-                <div className={styles.mobileLinks}>
-                    {links.map((link) => (
-                        <NavLink item={link} key={link.title} />
-                    ))}
-                </div>
-            )}
+
+            {/* Mobile Links */}
+            {open && <div className={`${styles.mobileLinks} ${open ? styles.show : ""}`}>
+                {links.map((link) => (
+                    <NavLink item={link} key={link.title} />
+                ))}
+                <NavLink item={{ title: "Login", path: "/login" }} />
+            </div>}
         </div>
     );
 };
 
 export default Links;
+
+
+

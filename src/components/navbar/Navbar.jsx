@@ -8,7 +8,7 @@ import AppIcon from "../../../public/AppIcon.png"
 const NavBar = () => {
     return (
         <div className={styles.container}>
-            <Link href="/"><Image className={styles.logo} src={AppIcon} alt="App Logo"/></Link>
+            <Link href="/" className={styles.logoTxt}><Image className={styles.logo} src={AppIcon} alt="App Logo"/></Link>
             <div><Links/></div>
         </div>
     );

@@ -35,6 +35,12 @@ const features = [
     },
 ];
 
+export const metadata = {
+    title: "Features",
+    description: "Features of AgriTech",
+};
+
+
 const FeaturesPage = () => {
     return (
         <div className={styles.container}>

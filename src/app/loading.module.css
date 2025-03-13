@@ -1,0 +1,29 @@
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6); /* Darkened background */
+    backdrop-filter: blur(5px); /* Apply blur effect */
+    z-index: 9999;
+}
+
+.loading-image {
+    width: 100px; /* Adjust size */
+    height: 100px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Smooth fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

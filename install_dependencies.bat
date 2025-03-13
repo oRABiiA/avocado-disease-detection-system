@@ -2,5 +2,5 @@
 echo Installing dependencies...
 npm install
 npm install classnames
-
-echo All dependencies installed.
+npm install @coreui/react
+echo All dependencies installeds.

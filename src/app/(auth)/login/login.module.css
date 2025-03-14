@@ -1,21 +1,17 @@
-/* General Container */
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    /*padding: 20px;*/
 }
 
 .row {
     display: flex;
     width: 80%;
     max-width: 1400px;
-    gap: 90px; /* Increased gap for better spacing */
+    gap: 90px;
     align-items: center;
 }
 
-/* Left Section */
 .colLeft {
     flex: 1;
     display: flex;
@@ -29,7 +25,6 @@
     margin-right: 100px;
 }
 
-/* Right Section */
 .colRight {
     flex: 1;
     display: flex;
@@ -170,7 +165,6 @@
 
 }
 
-/* Hide Image on smaller screens */
 @media (max-width: 1024px) {
     .colLeft {
         display: none;

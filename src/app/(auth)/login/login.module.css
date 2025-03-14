@@ -1,0 +1,178 @@
+/* General Container */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /*padding: 20px;*/
+}
+
+.row {
+    display: flex;
+    width: 80%;
+    max-width: 1400px;
+    gap: 90px; /* Increased gap for better spacing */
+    align-items: center;
+}
+
+/* Left Section */
+.colLeft {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.heroImage {
+    max-width: 100%;
+    height: auto;
+    margin-right: 100px;
+}
+
+/* Right Section */
+.colRight {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* Card */
+.card {
+    background: linear-gradient(to bottom, #728372, #395144);
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    margin-left: 30px;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Title Section */
+.inputGroup {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Input Fields */
+.inputField {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.inputField:focus {
+    border-color: #AA8B56;
+    background: #ffffff;
+    outline: none;
+}
+
+/* Help Section */
+.helpSection {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.linkButton {
+    background-color: #AA8B56;
+    border: none;
+    color: white;
+    padding: 5px;
+    width: 30%;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 1rem;
+}
+
+.linkButton:hover {
+    background-color: #c5a163;
+}
+
+/* Button */
+.btnPrimary {
+    background-color: #AA8B56;
+    color: white;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    font-size: 1.4rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btnPrimary:hover {
+    background-color: #c5a163;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .colLeft {
+        text-align: center;
+    }
+
+    .card {
+        max-width: 100%;
+    }
+
+    /* Help Section */
+    .helpSection {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .helpText {
+        align-self: center;
+    }
+
+    .linkButton {
+        background-color: #AA8B56;
+        border: none;
+        color: white;
+        padding: 5px;
+        width: 50%;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        font-size: 0.9rem;
+        align-self: center;
+        margin-top: 10px;
+    }
+
+}
+
+/* Hide Image on smaller screens */
+@media (max-width: 1024px) {
+    .colLeft {
+        display: none;
+    }
+}

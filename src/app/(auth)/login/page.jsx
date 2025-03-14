@@ -1,30 +1,70 @@
-import "./Login.css";
+"use client";
+
+import React from "react";
+import styles from "./login.module.css";
 import Image from "next/image";
-import LoginImage from "../../../../public/reb7e.png"
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+function Login() {
+    const router = useRouter();
+
+    const navigateTo = (page) => {
+        router.push(page);
+    };
+
     return (
-        <div className="main">
-            <input type="checkbox" id="chk" aria-hidden="true"/>
+        <div className={styles.container}>
+            <div className={styles.row}>
 
-            <div className="welcome">
-                <Image src={LoginImage} alt="Cartoon avocado character with a bowler hat and mustache, holding a cane"/>
-                <h1>
-                    AgriTech
-                </h1>
-                <h2>
-                    Avocado Tree Detection System
-                </h2>
-            </div>
+                {/* Left Section */}
+                <div className={styles.colLeft}>
+                    <Image
+                        src="/loginHero.gif"
+                        alt="Man riding motorbike"
+                        width={700}
+                        height={700}
+                        className={styles.heroImage}
+                    />
+                </div>
 
-            <div className="login">
-                <form>
-                    <label htmlFor="chk" aria-hidden="true">Login</label>
-                    <input type="email" name="email" placeholder="Account ID" required=""/>
-                    <input type="password" name="pswd" placeholder="Password" required=""/>
-                    <button>Login</button>
-                </form>
+                {/* Right Section - Login Form */}
+                <div className={styles.colRight}>
+                    <div className={styles.card}>
+                        <div className={styles.cardBody}>
+
+                            {/* App Icon and Title */}
+                            <div className={styles.inputGroup}>
+                                <Image
+                                    src="/AppIcon.png"
+                                    alt="App Icon"
+                                    width={50}
+                                    height={50}
+                                />
+                                <h2 className={styles.title}>Login</h2>
+                            </div>
+
+                            {/* Form Inputs */}
+                            <input className={styles.inputField} placeholder="User ID" type="text" />
+                            <input className={styles.inputField} placeholder="Password" type="password" />
+
+                            {/* Help Section */}
+                            <div className={styles.helpSection}>
+                                <label className={styles.helpText} htmlFor="help">Need Help?</label>
+                                <button className={styles.linkButton} onClick={() => navigateTo("/contact")}>
+                                    Contact Us
+                                </button>
+                            </div>
+
+                            {/* Sign In Button */}
+                            <button className={styles.btnPrimary}>Sign In</button>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     );
 }
+
+export default Login;

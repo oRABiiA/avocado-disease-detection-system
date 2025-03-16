@@ -15,8 +15,8 @@ const links = [
         path: "/calendar",
     },
     {
-        title: "View",
-        path: "/view",
+        title: "Alerts",
+        path: "/alerts",
     },
     {
         title: "Generate",

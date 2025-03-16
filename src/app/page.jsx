@@ -5,7 +5,7 @@ import styles from "./home.module.css";
 import verifiedLogo from "../../public/icons/verified.svg"
 import {useRouter} from "next/navigation";
 import ShowImage from "@/components/ShowImage/ShowImage.jsx"
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/navbar/Navbar.jsx";
 
 const Home = () => {
 

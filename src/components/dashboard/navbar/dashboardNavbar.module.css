@@ -1,0 +1,17 @@
+.container{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo{
+    max-width: 50px;
+    max-height: 50px;
+}
+
+/*.logoTxt {*/
+/*    font-style: italic;*/
+/*    font-size: 20px;*/
+/*    font-weight: bold;*/
+/*}*/

@@ -1,26 +1,34 @@
 'use client'
 
-import styles from "./links.module.css";
-import NavLink from "@/components/navbar/links/navLink/NavLink";
+import styles from "./links.module.css"
+import NavLink from "./navLink/NavLink.jsx"
 import {useState} from "react";
 import Image from "next/image";
 
 const links = [
     {
-        title: "Home",
-        path: "/",
+        title: "Dashboard",
+        path: "/dashboard",
     },
     {
-        title: "Features",
-        path: "/features",
+        title: "Calendar",
+        path: "/calendar",
     },
     {
-        title: "Contact",
-        path: "/contact",
+        title: "View",
+        path: "/view",
     },
     {
-        title: "About",
-        path: "/about",
+        title: "Generate",
+        path: "/generate",
+    },
+    {
+        title: "Settings",
+        path: "/settings",
+    },
+    {
+        title: "Help",
+        path: "/help",
     },
 ]
 
@@ -34,7 +42,7 @@ const Links = () => {
                 {links.map((link) => (
                     <NavLink item={link} key={link.title} />
                 ))}
-                <NavLink item={{ title: "Login", path: "/login" }} />
+                <NavLink item={{ title: "Logout", path: "/" }} />
             </div>
 
             {/* Mobile Menu Button */}
@@ -52,7 +60,7 @@ const Links = () => {
                 {links.map((link) => (
                     <NavLink item={link} key={link.title} />
                 ))}
-                <NavLink item={{ title: "Login", path: "/login" }} />
+                <NavLink item={{ title: "Logout", path: "/" }} />
             </div>}
         </div>
     );

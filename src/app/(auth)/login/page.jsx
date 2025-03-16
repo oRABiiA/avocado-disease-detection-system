@@ -59,7 +59,7 @@ function Login() {
                                 </div>
 
                                 {/* Sign In Button */}
-                                <button className={styles.btnPrimary}>Sign In</button>
+                                <button className={styles.btnPrimary} onClick={() => navigateTo("/dashboard")}>Sign In</button>
 
                             </div>
                         </div>

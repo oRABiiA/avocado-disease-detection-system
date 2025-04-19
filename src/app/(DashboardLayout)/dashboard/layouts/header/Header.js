@@ -15,10 +15,13 @@ import {
 } from "reactstrap";
 import Logo from "public/images/logos/AppIcon.png";
 import user1 from "public/images/users/user1.jpg";
+import { useRouter } from "next/navigation";
+
 
 const Header = ({ showMobmenu }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const router = useRouter();
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const Handletoggle = () => {
@@ -84,7 +87,13 @@ const Header = ({ showMobmenu }) => {
             <DropdownItem header>Info</DropdownItem>
             <DropdownItem>Settings</DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>Logout</DropdownItem>
+            <DropdownItem onClick={() => {
+              localStorage.setItem("loggedIn", "false");
+              router.push("/login");}}>
+              Logout
+            </DropdownItem>
+
+
           </DropdownMenu>
         </Dropdown>
       </Collapse>

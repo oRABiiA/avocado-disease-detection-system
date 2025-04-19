@@ -14,22 +14,26 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import loginImage from "/public/images/background/feature2.png"; // Make sure image exists
+import { useRouter } from "next/navigation";
+
 
 const LoginPage = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
+
 
   const handleLogin = (e) => {
     e.preventDefault();
-
-    // Replace this with real authentication logic
-    if (email === "admin@example.com" && password === "admin") {
+  
+    if (email === "admin@example.com" && password === "a") {
       localStorage.setItem("loggedIn", "true");
-      onLoginSuccess(); // Notify parent component of successful login
+      router.push("/dashboard"); // <-- Redirect after login
     } else {
       alert("Invalid credentials");
     }
   };
+  
 
   return (
     <Container fluid className="vh-100 d-flex align-items-center">

@@ -10,6 +10,7 @@ import bg2 from "public/images/bg/bg2.jpg";
 import bg3 from "public/images/bg/bg3.jpg";
 import bg4 from "public/images/bg/bg4.jpg";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { useAlert } from "../../../context/AlertContext";
 
 const BlogData = [
   {
@@ -43,6 +44,9 @@ const BlogData = [
 ];
 
 export default function Home() {
+
+  const { addAlert } = useAlert();
+
   return (
     <div>
       {/***Top Cards***/}
@@ -83,6 +87,17 @@ export default function Home() {
               icon="bi bi-calendar-check"
             />
           </Col>
+      </Row>
+      {/* 🔔 Add Alert Button Here */}
+      <Row className="my-3">
+        <Col>
+          <button
+            className="btn btn-danger"
+            onClick={() => addAlert("🚨 Sensor temperature is too high!")}
+          >
+            Trigger Test Alert
+          </button>
+        </Col>
       </Row>
       {/***Sales & Feed***/}
       <Row>

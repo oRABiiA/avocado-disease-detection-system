@@ -11,20 +11,20 @@ export default function Home() {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    const loggedIn = localStorage.getItem('loggedIn');
+    const loggedIn = sessionStorage.getItem('loggedIn');
     if (loggedIn === 'true') {
-      router.push('/dashboard'); // ✅ Let layout + route handle the dashboard page
+      router.push('/dashboard'); // ✅ Redirect to dashboard if logged in
     } else {
       setCheckingAuth(false); // Show login page
     }
   }, [router]);
 
   const handleLoginSuccess = () => {
-    localStorage.setItem('loggedIn', 'true');
+    sessionStorage.setItem('loggedIn', 'true');
     router.push('/dashboard'); // ✅ After login, route to /dashboard
   };
 
-  if (checkingAuth) return null; // Or show a loading spinner
+  if (checkingAuth) return null; // Optional: show spinner/loading
 
   return <LoginPage onLoginSuccess={handleLoginSuccess} />;
 }

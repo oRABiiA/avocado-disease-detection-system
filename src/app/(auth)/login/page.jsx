@@ -131,7 +131,7 @@ import Image from "next/image";
 import { useState } from "react";
 import loginImage from "/public/images/background/feature2.png";
 import { useRouter } from "next/navigation";
-import Logo from "@/app/(auth)/login/shared/logo/logo";
+import Logo from "@/app/(auth)/login/shared/logo/Loginlogo";
 import { motion } from "framer-motion"; // ✅ Import motion
 
 const LoginPage = ({ onLoginSuccess }) => {

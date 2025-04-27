@@ -63,7 +63,6 @@ export default function Dashboard() {
     }
   }, [router]);
 
-
   return ( redirectState && 
   <div>
     {/***Top Cards***/}

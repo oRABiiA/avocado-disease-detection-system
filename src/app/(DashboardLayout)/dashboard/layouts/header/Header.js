@@ -88,8 +88,10 @@ const Header = ({ showMobmenu }) => {
             <DropdownItem>Settings</DropdownItem>
             <DropdownItem divider />
             <DropdownItem onClick={() => {
-              localStorage.setItem("loggedIn", "false");
-              router.push("/login");}}>
+              sessionStorage.setItem("loggedIn", "false")
+              sessionStorage.removeItem("user")
+              router.push("/login")
+            }}>
               Logout
             </DropdownItem>
 

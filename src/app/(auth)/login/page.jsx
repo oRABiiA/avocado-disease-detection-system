@@ -13,11 +13,16 @@ import {
   Alert,
 } from "reactstrap";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import loginImage from "/public/images/background/login/greens.jpg";
 import { useRouter } from "next/navigation";
 import Logo from "@/app/(auth)/login/shared/logo/Loginlogo";
 import { motion } from "framer-motion";
+
+// firebase imports
+import {ref, get, child } from "firebase/database";
+import { database } from "@/lib/firebaseConfig";
+
 
 const LoginPage = ({ onLoginSuccess }) => {
   const [userId, setUserId] = useState("");
@@ -25,14 +30,36 @@ const LoginPage = ({ onLoginSuccess }) => {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (userId === "admin" && password === "a") {
-      sessionStorage.setItem("loggedIn", "true");
-      if (onLoginSuccess) onLoginSuccess();
-      router.push("/dashboard");
-    } else {
-      setError("Invalid credentials");
+    setError("");
+  
+    try {
+      const db = database;
+      const dbRef = ref(db);
+  
+      const snapshot = await get(child(dbRef, `users/${userId}`));
+  
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+      
+        if (userData.password === password) {
+          sessionStorage.setItem("loggedIn", "true");
+
+          sessionStorage.setItem("user", JSON.stringify(userData));
+
+          if (onLoginSuccess) onLoginSuccess();
+          router.push("/dashboard");
+        } else {
+          setError("Incorrect password.");
+        }
+      } else {
+        setError("User not found.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("An error occurred. Please try again.");
     }
   };
 

@@ -18,6 +18,7 @@ import loginImage from "/public/images/background/login/greens.jpg";
 import { useRouter } from "next/navigation";
 import Logo from "@/app/(auth)/login/shared/logo/Loginlogo";
 import { motion } from "framer-motion";
+import Loading from "@/app/loading"
 
 // firebase imports
 import {ref, get, child } from "firebase/database";
@@ -29,6 +30,7 @@ const LoginPage = ({ onLoginSuccess }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
 
   const handleLogin = async (e) => {
@@ -36,6 +38,7 @@ const LoginPage = ({ onLoginSuccess }) => {
     setError("");
   
     try {
+      setLoading(true);
       const db = database;
       const dbRef = ref(db);
   
@@ -60,6 +63,8 @@ const LoginPage = ({ onLoginSuccess }) => {
     } catch (err) {
       console.error(err);
       setError("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -152,6 +157,8 @@ const LoginPage = ({ onLoginSuccess }) => {
           </motion.div>
         </Col>
       </Row>
+      {/* 🔥 Show loading spinner */}
+      {loading && <Loading />}
     </Container>
   );
 };

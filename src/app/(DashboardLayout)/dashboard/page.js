@@ -14,45 +14,22 @@ import { useAlert } from "../../../context/AlertContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useMqtt from "@/app/hooks/useMqtt";
+import { get, ref, child } from "firebase/database";
+import {database} from "@/lib/firebaseConfig"
 
-const BlogData = [
-  {
-    image: bg1,
-    title: "🌱 Nutrient-Rich Fruit",
-    description:
-      "Plant your avocado trees in well-drained, nutrient-rich soil and apply balanced fertilizer regularly.",
-    btnbg: "primary",
-  },
-  {
-    image: bg2,
-    title: "☀️ Healthy Fats Production",
-    description:
-      "Ensure they get full sunlight and consistent watering to promote the production of heart-healthy monounsaturated fats.",
-    btnbg: "primary",
-  },
-  {
-    image: bg3,
-    title: "🥑 Versatile Fruit Quality",
-    description:
-      "Choose a reliable cultivar like Hass for creamy, flavorful avocados suitable for various dishes.",
-    btnbg: "primary",
-  },
-  {
-    image: bg4,
-    title: "🍌 Controlled Ripening",
-    description:
-      "After harvesting, store avocados with ethylene-producing fruits like bananas or apples to control and speed up ripening.",
-    btnbg: "primary",
-  },
-];
+
 
 export default function Dashboard() {
 
-  const { addAlert } = useAlert();
+  // const { addAlert } = useAlert();
   const [user, setUser] = useState(null);
   const [redirectState, setRedirectState] = useState(false); // Added loading state
   const router = useRouter();
   const { temperature, soil_moisture } = useMqtt();
+
+  const [aiData, setAiData] = useState({ Healthy: "", Tip1: "", Tip2: "", Tip3: "" });
+  const [healthyStatus, setHealthyStatus] = useState("Undefined");
+
 
   useEffect(() => {
     const userData = sessionStorage.getItem("user");
@@ -65,18 +42,55 @@ export default function Dashboard() {
     }
   }, [router]);
 
+  useEffect(() => {
+    const fetchAIResponse = async () => {
+      try {
+        const dbRef = ref(database);
+        const snapshot = await get(child(dbRef, "AI_response"));
+        if (snapshot.exists()) {
+          setAiData(snapshot.val());
+          if(aiData.Healthy === "YES"){
+            setHealthyStatus("Healthy");
+          }
+          else{
+            setHealthyStatus("Unhealthy");
+          }
+        } else {
+          console.log("No data available at AI_response");
+        }
+      } catch (error) {
+        console.error("Error fetching AI_response:", error);
+      }
+    };
+    fetchAIResponse();
+  }, []);
+
+  const BlogData = [
+    {
+      image: bg1,
+      title: "🌿 Tip 1",
+      description: aiData.Tip1 || "Loading...",
+      btnbg: "primary",
+    },
+    {
+      image: bg2,
+      title: "🌿 Tip 2",
+      description: aiData.Tip2 || "Loading...",
+      btnbg: "primary",
+    },
+    {
+      image: bg3,
+      title: "🌿 Tip 3",
+      description: aiData.Tip3 || "Loading...",
+      btnbg: "primary",
+    },
+  ];
+
   return ( redirectState && 
   <div>
     {/***Top Cards***/}
     <Row>
         <Col sm="6" lg="3">
-          {/* <TopCards
-            bg="bg-light-success text-success"
-            title="air-temp"
-            subtitle="Air Temperature"
-            earning="22.3°"
-            icon="bi bi-wind"
-          /> */}
           <TopCards
             bg="bg-light-success text-success"
             title="air-temp"
@@ -86,13 +100,6 @@ export default function Dashboard() {
           />
         </Col>
         <Col sm="6" lg="3">
-          {/* <TopCards
-            bg="bg-light-danger text-danger"
-            title="soil-temp"
-            subtitle="Soil Temperature"
-            earning="34.5°"
-            icon="bi bi-tree"
-          /> */}
           <TopCards
             bg="bg-light-danger text-danger"
             title="soil-temp"
@@ -106,7 +113,7 @@ export default function Dashboard() {
             bg="bg-light-warning text-warning"
             title="health"
             subtitle="Tree No.A12"
-            earning="Healthy"
+            earning={healthyStatus || "Loading..."}
             icon="bi bi-bandaid"
           />
         </Col>
@@ -151,7 +158,7 @@ export default function Dashboard() {
       <Col lg="12">
         <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded shadow-sm">
           <h5 className="mb-0 fw-semibold text-dark bi bi-cl">
-            💡 Tip of the Day
+            💡 Tips To Solve
           </h5>
         </div>
       </Col>

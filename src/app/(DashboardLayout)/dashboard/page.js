@@ -13,6 +13,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useAlert } from "../../../context/AlertContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import useMqtt from "@/app/hooks/useMqtt";
 
 const BlogData = [
   {
@@ -51,6 +52,7 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [redirectState, setRedirectState] = useState(false); // Added loading state
   const router = useRouter();
+  const { temperature, soil_moisture } = useMqtt();
 
   useEffect(() => {
     const userData = sessionStorage.getItem("user");
@@ -68,20 +70,34 @@ export default function Dashboard() {
     {/***Top Cards***/}
     <Row>
         <Col sm="6" lg="3">
-          <TopCards
+          {/* <TopCards
             bg="bg-light-success text-success"
             title="air-temp"
             subtitle="Air Temperature"
             earning="22.3°"
             icon="bi bi-wind"
+          /> */}
+          <TopCards
+            bg="bg-light-success text-success"
+            title="air-temp"
+            subtitle="Air Temperature"
+            earning={temperature !== null ? `${temperature.toFixed(1)}°` : "Loading..."}
+            icon="bi bi-wind"
           />
         </Col>
         <Col sm="6" lg="3">
-          <TopCards
+          {/* <TopCards
             bg="bg-light-danger text-danger"
             title="soil-temp"
             subtitle="Soil Temperature"
             earning="34.5°"
+            icon="bi bi-tree"
+          /> */}
+          <TopCards
+            bg="bg-light-danger text-danger"
+            title="soil-temp"
+            subtitle="Soil Temperature"
+            earning={soil_moisture !== null ? `${soil_moisture.toFixed(1)}°` : "Loading..."}
             icon="bi bi-tree"
           />
         </Col>
@@ -105,7 +121,7 @@ export default function Dashboard() {
         </Col>
     </Row>
     {/* 🔔 Add Alert Button Here */}
-    <Row className="my-3">
+    {/* <Row className="my-3">
       <Col>
         <button
           className="btn btn-danger"
@@ -114,7 +130,7 @@ export default function Dashboard() {
           Trigger Test Alert
         </button>
       </Col>
-    </Row>
+    </Row> */}
     {/***Sales & Feed***/}
     <Row>
       <Col sm="12" lg="6" xl="7" xxl="8">

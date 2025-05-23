@@ -53,6 +53,7 @@ const LoginPage = ({ onLoginSuccess }) => {
           sessionStorage.setItem("user", JSON.stringify(userData));
 
           if (onLoginSuccess) onLoginSuccess();
+          console.log("Getting data from mqtt...");
           router.push("/dashboard");
         } else {
           setError("Incorrect password.");

@@ -12,7 +12,8 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: "images.pexels.com"
             }
-        ]
+        ],
+        domains: ['8204-84-108-116-163.ngrok-free.app']
     }
 };
 

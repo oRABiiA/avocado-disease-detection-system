@@ -28,9 +28,9 @@ const navigation = [
     icon: "bi bi-calendar",
   },
   {
-    title: "Generate Reports",
-    href: "/dashboard",
-    icon: "bi bi-flag",
+    title: "Capture Photo",
+    href: "/dashboard/pages/capture",
+    icon: "bi bi-camera",
   },
   {
     title: "Features",

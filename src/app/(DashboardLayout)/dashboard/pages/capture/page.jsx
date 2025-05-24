@@ -6,7 +6,7 @@ const CaptureImage = () => {
   const router = useRouter();
 
   const handleCapture = () => {
-    const imageUrl = `https://8204-84-108-116-163.ngrok-free.app/photo?timestamp=${Date.now()}`;
+    const imageUrl = `https://2717-84-108-116-163.ngrok-free.app/photo?timestamp=${Date.now()}`;
     window.open(imageUrl, "_blank");
   };
 

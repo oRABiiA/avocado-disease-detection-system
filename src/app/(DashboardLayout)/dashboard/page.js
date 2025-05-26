@@ -21,7 +21,7 @@ import {database} from "@/lib/firebaseConfig"
 
 export default function Dashboard() {
 
-  // const { addAlert } = useAlert();
+  const { addAlert } = useAlert();
   const [user, setUser] = useState(null);
   const [redirectState, setRedirectState] = useState(false); // Added loading state
   const router = useRouter();
@@ -65,25 +65,87 @@ export default function Dashboard() {
     fetchAIResponse();
   }, []);
 
+  useEffect(() => {
+
+    // Only check when values are valid
+    if(temperature === null) return;
+
+    if (temperature < 18 || temperature > 27) {
+      addAlert("🚨 Air temperature is outside the optimal range!");
+    }
+  }, [temperature]);
+
+  useEffect(() => {
+
+    // Only check when values are valid
+    if(soil_moisture === null) return;
+
+    if (soil_moisture < 10) {
+      addAlert("🚨 Soil moisture is too low!");
+    }
+  }, [soil_moisture]);
+
+  // useEffect(() => {
+
+  //   // Only check when values are valid
+  //   if(healthyStatus === "Undefined") return;
+
+  //   if (healthyStatus !== "Healthy") {
+  //     addAlert("🚨 The tree is not healthy!");
+  //   }
+  // }, [healthyStatus]);
+
+  useEffect(() => {
+    if (healthyStatus === "Undefined") return;
+
+    if (healthyStatus !== "Healthy") {
+      const tips = [aiData.Tip1, aiData.Tip2, aiData.Tip3].filter(Boolean); // remove null/empty tips
+
+      addAlert(
+      <div>
+        <strong>🚨 The tree is not healthy!</strong>
+        <div className="mt-2">
+          <p className="mb-1">🌿 Tips to help:</p>
+          <ul className="mb-0 ps-3">
+            {tips.map((tip, i) => (
+              <li key={i}>👉 {tip}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      );
+    }
+  }, [healthyStatus, aiData]);
+
   const BlogData = [
     {
       image: bg1,
-      title: "🌿 Tip 1",
-      description: aiData.Tip1 || "Loading...",
+      title: "🌿 Tip 1: Watering Wisely",
+      description:
+        "Avocado trees prefer deep, infrequent watering. Ensure the soil drains well and water only when the top 2-3 inches of soil are dry.",
       btnbg: "primary",
     },
     {
       image: bg2,
-      title: "🌿 Tip 2",
-      description: aiData.Tip2 || "Loading...",
+      title: "🌞 Tip 2: Sunlight & Temperature",
+      description:
+        "Plant in a location with full sun (at least 6 hours a day). Avocados thrive between 18°C and 27°C and should be protected from frost.",
       btnbg: "primary",
     },
     {
       image: bg3,
-      title: "🌿 Tip 3",
-      description: aiData.Tip3 || "Loading...",
+      title: "🌱 Tip 3: Healthy Soil & Fertilizing",
+      description:
+        "Use well-drained, slightly acidic soil. Fertilize with a balanced fertilizer rich in nitrogen during the growing season.",
       btnbg: "primary",
     },
+    {
+      image: bg4,
+      title: "🌿 Tip 4: Mulching for Moisture",
+      description:
+        "Apply a thick layer of mulch around the base of the tree (but not touching the trunk) to retain soil moisture, regulate temperature, and reduce weed growth.",
+      btnbg: "primary",
+    }
   ];
 
   return ( redirectState && 
@@ -158,7 +220,7 @@ export default function Dashboard() {
       <Col lg="12">
         <div className="d-flex align-items-center justify-content-between p-3 bg-light rounded shadow-sm">
           <h5 className="mb-0 fw-semibold text-dark bi bi-cl">
-            💡 Tips To Solve
+            💡 Tip of the Day
           </h5>
         </div>
       </Col>

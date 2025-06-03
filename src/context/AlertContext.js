@@ -10,17 +10,31 @@ export const AlertProvider = ({ children }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const addAlert = (message) => {
-    const now = new Date();
-    const newAlert = {
-      message,
-      read: false,
-      time: now.toLocaleTimeString(),
-      date: now.toLocaleDateString(),
-    };
+    // const now = new Date();
+    // const newAlert = {
+    //   message,
+    //   read: false,
+    //   time: now.toLocaleTimeString(),
+    //   date: now.toLocaleDateString(),
+    // };
   
-    setAlerts((prev) => {
-      const updated = [newAlert, ...prev];
-      return updated.slice(0, 5); // Keep only the latest 5
+    // setAlerts((prev) => {
+    //   const updated = [newAlert, ...prev];
+    //   return updated.slice(0, 5); // Keep only the latest 5
+    // });
+    setAlerts((prevAlerts) => {
+      const isDuplicate = prevAlerts.some(
+        (alert) => JSON.stringify(alert.message) === JSON.stringify(message)
+      );
+      if (isDuplicate) return prevAlerts;
+
+      const newAlert = {
+        message,
+        read: false,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      return [...prevAlerts, newAlert];
     });
   
     setShowPopup(true);

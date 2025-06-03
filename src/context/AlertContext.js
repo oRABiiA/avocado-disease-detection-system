@@ -26,14 +26,17 @@ export const AlertProvider = ({ children }) => {
     setShowPopup(true);
   };
   
-
   const markAllAsRead = () => {
     setAlerts((prev) => prev.map((alert) => ({ ...alert, read: true })));
   };
 
+  const clearAlerts = () => {
+    setAlerts([]);
+  };
+
   return (
     <AlertContext.Provider
-      value={{ alerts, addAlert, showPopup, setShowPopup, markAllAsRead }}
+      value={{ alerts, addAlert, showPopup, setShowPopup, markAllAsRead, clearAlerts }}
     >
       {children}
     </AlertContext.Provider>

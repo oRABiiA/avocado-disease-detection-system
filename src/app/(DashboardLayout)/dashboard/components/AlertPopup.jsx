@@ -4,7 +4,7 @@ import { Card, CardBody } from "reactstrap";
 import { useAlert } from "../../../../context/AlertContext";
 
 const AlertPopup = () => {
-  const { alerts, showPopup, setShowPopup, markAllAsRead } = useAlert();
+  const { alerts, showPopup, setShowPopup, markAllAsRead, clearAlerts} = useAlert();
 
   if (!showPopup) return null;
 
@@ -24,6 +24,9 @@ const AlertPopup = () => {
           <h6 className="mb-0">Alerts</h6>
           <button className="btn btn-sm btn-link" onClick={markAllAsRead}>
             Mark all as read
+          </button>
+          <button className="btn btn-sm btn-link text-danger" onClick={clearAlerts}>
+            Clear alerts
           </button>
         </div>
         <ul className="list-unstyled mb-0">

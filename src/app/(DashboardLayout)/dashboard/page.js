@@ -11,9 +11,11 @@ import bg3 from "public/images/bg/bg3.jpg";
 import bg4 from "public/images/bg/bg4.jpg";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useAlert } from "../../../context/AlertContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useMqtt from "@/app/hooks/useMqtt";
+
+// firebase imports
 import { get, ref, child } from "firebase/database";
 import {database} from "@/lib/firebaseConfig"
 
@@ -25,11 +27,11 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [redirectState, setRedirectState] = useState(false); // Added loading state
   const router = useRouter();
+  const hasAlertedRef = useRef(false);
   const { temperature, soil_moisture } = useMqtt();
 
   const [aiData, setAiData] = useState({ Healthy: "", Tip1: "", Tip2: "", Tip3: "" });
   const [healthyStatus, setHealthyStatus] = useState("Undefined");
-
 
   useEffect(() => {
     const userData = sessionStorage.getItem("user");
@@ -48,8 +50,9 @@ export default function Dashboard() {
         const dbRef = ref(database);
         const snapshot = await get(child(dbRef, "AI_response"));
         if (snapshot.exists()) {
-          setAiData(snapshot.val());
-          if(aiData.Healthy === "YES"){
+          const data = snapshot.val();
+          setAiData(data);
+          if(data.Healthy === "YES"){
             setHealthyStatus("Healthy");
           }
           else{
@@ -96,7 +99,7 @@ export default function Dashboard() {
   // }, [healthyStatus]);
 
   useEffect(() => {
-    if (healthyStatus === "Undefined") return;
+    if (healthyStatus === "Undefined" || hasAlertedRef.current) return;
 
     if (healthyStatus !== "Healthy") {
       const tips = [aiData.Tip1, aiData.Tip2, aiData.Tip3].filter(Boolean); // remove null/empty tips
@@ -114,8 +117,16 @@ export default function Dashboard() {
         </div>
       </div>
       );
+
+      hasAlertedRef.current = true;
     }
-  }, [healthyStatus, aiData]);
+  }, [healthyStatus]);
+
+  useEffect(() => {
+    if (healthyStatus === "Healthy") {
+      hasAlertedRef.current = false;
+    }
+  }, [healthyStatus]);
 
   const BlogData = [
     {

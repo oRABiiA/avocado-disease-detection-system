@@ -1,5 +1,3 @@
-// useMqtt.js
-
 import { useEffect, useState } from "react";
 import mqtt from "mqtt";
 

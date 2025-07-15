@@ -73,7 +73,7 @@ export default function Dashboard() {
     // Only check when values are valid
     if(temperature === null) return;
 
-    if (temperature < 18 || temperature > 27) {
+    if (temperature < 15 || temperature > 30) {
       addAlert("🚨 Air temperature is outside the optimal range!");
     }
   }, [temperature]);
@@ -83,7 +83,7 @@ export default function Dashboard() {
     // Only check when values are valid
     if(soil_moisture === null) return;
 
-    if (soil_moisture < 10) {
+    if (soil_moisture < 500) {
       addAlert("🚨 Soil moisture is too low!");
     }
   }, [soil_moisture]);

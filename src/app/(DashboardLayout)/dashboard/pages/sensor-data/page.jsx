@@ -1,16 +1,68 @@
-"use client"
+"use client";
+import { useEffect, useState } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import dynamic from "next/dynamic";
+import useMqtt from "@/app/hooks/useMqtt";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const SensorData = () => {
-  const timeLabels = [
-    "12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM",
-    "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
-    "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM",
-    "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"
-  ];
+  const { temperature, soil_moisture } = useMqtt();
+
+  const [tempHistory, setTempHistory] = useState(Array(24).fill(null));
+  const [moistureHistory, setMoistureHistory] = useState(Array(24).fill(null));
+  const [timeLabels, setTimeLabels] = useState([]);
+
+  // Update time labels every hour
+  useEffect(() => {
+    const generateTimeLabels = () => {
+      const now = new Date();
+      const labels = [];
+      for (let i = 23; i >= 0; i--) {
+        const d = new Date(now);
+        d.setHours(now.getHours() - i);
+        labels.push(d.getHours() + ":00");
+      }
+      setTimeLabels(labels);
+    };
+
+    generateTimeLabels();
+    const interval = setInterval(generateTimeLabels, 60 * 60 * 1000); // every hour
+    return () => clearInterval(interval);
+  }, []);
+
+  // Push latest values to history
+  useEffect(() => {
+    if (temperature !== null) {
+      setTempHistory((prev) => [...prev.slice(1), temperature]);
+    }
+    if (soil_moisture !== null) {
+      setMoistureHistory((prev) => [...prev.slice(1), soil_moisture]);
+    }
+  }, [temperature, soil_moisture]);
+
+  // const commonOptions = {
+  //   chart: {
+  //     type: "area",
+  //     zoom: { enabled: false },
+  //   },
+  //   dataLabels: { enabled: false },
+  //   stroke: {
+  //     curve: "smooth",
+  //     width: 2,
+  //   },
+  //   grid: {
+  //     strokeDashArray: 3,
+  //     borderColor: "rgba(0,0,0,0.1)",
+  //   },
+  //   xaxis: {
+  //     categories: timeLabels,
+  //     title: { text: "Hour of Day" },
+  //   },
+  //   tooltip: {
+  //     x: { format: "HH:mm" },
+  //   },
+  // };
 
   const commonOptions = {
     chart: {
@@ -28,10 +80,13 @@ const SensorData = () => {
     },
     xaxis: {
       categories: timeLabels,
-      title: { text: "Hour of Day" },
+      labels: { show: false },       // 🔴 Hide X-axis labels
+      title: { text: "", style: { display: "none" } }, // 🔴 Remove X-axis title
+      axisTicks: { show: false },    // 🔴 Hide axis ticks
+      axisBorder: { show: false },   // 🔴 Hide axis border
     },
     tooltip: {
-      x: { format: "HH:mm" },
+      x: { show: false }, // Optional: disables tooltip x formatting
     },
   };
 
@@ -39,7 +94,7 @@ const SensorData = () => {
     series: [
       {
         name: "Air Temperature (°C)",
-        data: [16, 15, 15, 14, 14, 15, 18, 21, 24, 26, 28, 29, 30, 31, 30, 29, 27, 25, 22, 20, 19, 18, 17, 16],
+        data: tempHistory,
       },
     ],
     options: {
@@ -54,7 +109,7 @@ const SensorData = () => {
     series: [
       {
         name: "Soil Moisture (%)",
-        data: [45, 44, 44, 43, 42, 42, 41, 40, 39, 38, 37, 37, 36, 36, 37, 38, 39, 40, 42, 43, 44, 45, 45, 45],
+        data: moistureHistory,
       },
     ],
     options: {
@@ -71,7 +126,7 @@ const SensorData = () => {
         <CardBody>
           <CardTitle tag="h5">Air Temperature</CardTitle>
           <CardSubtitle className="text-muted mb-3" tag="h6">
-            24-Hour Air Temperature Sensor Data - Section A
+            Live Air Temperature Sensor Data - Section A
           </CardSubtitle>
           <Chart
             type="area"
@@ -87,7 +142,7 @@ const SensorData = () => {
         <CardBody>
           <CardTitle tag="h5">Soil Moisture</CardTitle>
           <CardSubtitle className="text-muted mb-3" tag="h6">
-            24-Hour Soil Moisture Sensor Data - Section A
+            Live Soil Moisture Sensor Data - Section A
           </CardSubtitle>
           <Chart
             type="area"

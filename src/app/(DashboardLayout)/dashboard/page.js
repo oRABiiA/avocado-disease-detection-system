@@ -32,6 +32,7 @@ export default function Dashboard() {
 
   const [aiData, setAiData] = useState({ Healthy: "", Tip1: "", Tip2: "", Tip3: "" });
   const [healthyStatus, setHealthyStatus] = useState("Undefined");
+  const [nextCheckDate, setNextCheckDate] = useState(null);
 
   useEffect(() => {
     const userData = sessionStorage.getItem("user");
@@ -66,6 +67,23 @@ export default function Dashboard() {
       }
     };
     fetchAIResponse();
+  }, []);
+
+  useEffect(() => {
+    const fetchNextCheckDate = async () => {
+      try {
+        const dbRef = ref(database);
+        const snapshot = await get(child(dbRef, "Tree_status/next_check_date"));
+        if (snapshot.exists()) {
+          setNextCheckDate(snapshot.val());
+        } else {
+          console.log("No data available at Tree_status/next_check_date");
+        }
+      } catch (error) {
+        console.error("Error fetching next_check_date:", error);
+      }
+    };
+    fetchNextCheckDate();
   }, []);
 
   useEffect(() => {
@@ -185,7 +203,7 @@ export default function Dashboard() {
           <TopCards
             bg="bg-light-warning text-warning"
             title="health"
-            subtitle="Tree No.A12"
+            subtitle="Tree Health Status"
             earning={healthyStatus || "Loading..."}
             icon="bi bi-bandaid"
           />
@@ -195,7 +213,7 @@ export default function Dashboard() {
             bg="bg-light-info text-into"
             title="next-check"
             subtitle="Next Schedule Check"
-            earning="25.5.2025"
+            earning={nextCheckDate || "Loading..."}
             icon="bi bi-calendar-check"
           />
         </Col>

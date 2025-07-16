@@ -2,12 +2,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle, Table, Button } from "reactstrap";
 import user1 from "public/images/users/user1.jpg";
-import { getDatabase, ref, onValue, update } from "firebase/database";
+import { getDatabase, ref, onValue, update, get, child } from "firebase/database";
+import {database} from "@/lib/firebaseConfig"
 
 const ProjectTables = () => {
   const [treeData, setTreeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("Loading...");
+  const [healthyStatus, setHealthyStatus] = useState("Undefined");
 
   useEffect(() => {
     const db = getDatabase();
@@ -20,6 +22,30 @@ const ProjectTables = () => {
       setLoading(false);
     });
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchAIResponse = async () => {
+      try {
+        const dbRef = ref(database);
+        const snapshot = await get(child(dbRef, "AI_response"));
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          if(data.Healthy === "YES"){
+            setHealthyStatus("Healthy");
+          }
+          else{
+            setHealthyStatus("Unhealthy");
+          }
+          console.log(healthyStatus);
+        } else {
+          console.log("No data available at AI_response");
+        }
+      } catch (error) {
+        console.error("Error fetching AI_response:", error);
+      }
+    };
+    fetchAIResponse();
   }, []);
 
   const updateCheckDates = async () => {
@@ -105,7 +131,7 @@ const ProjectTables = () => {
                   <td>{treeData?.last_check_date}</td>
                   <td>{treeData?.next_check_date}</td>
                   <td>
-                    {treeData?.status === "pending" ? (
+                    {healthyStatus === "Unhealthy" ? (
                       <span className="p-2 bg-danger rounded-circle d-inline-block ms-3" />
                     ) : (
                       <span className="p-2 bg-success rounded-circle d-inline-block ms-3" />

@@ -106,16 +106,6 @@ export default function Dashboard() {
     }
   }, [soil_moisture]);
 
-  // useEffect(() => {
-
-  //   // Only check when values are valid
-  //   if(healthyStatus === "Undefined") return;
-
-  //   if (healthyStatus !== "Healthy") {
-  //     addAlert("🚨 The tree is not healthy!");
-  //   }
-  // }, [healthyStatus]);
-
   useEffect(() => {
     if (healthyStatus === "Undefined" || hasAlertedRef.current) return;
 

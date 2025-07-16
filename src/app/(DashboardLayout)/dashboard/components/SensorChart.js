@@ -1,18 +1,90 @@
+"use client";
+import { useEffect, useState } from "react";
 import { Card, CardBody, CardSubtitle, CardTitle } from "reactstrap";
 import dynamic from "next/dynamic";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const SensorChart = () => {
+  const [tempData, setTempData] = useState([]);
+  const [moistureData, setMoistureData] = useState([]);
+
+  // Hour labels for 24 hours
+  const timeLabels = [
+    "12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM",
+    "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
+    "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM",
+    "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"
+  ];
+
+  // // Fetch data from Firebase every hour
+  // useEffect(() => {
+  //   const db = getDatabase();
+  //   const sensorRef = ref(db, "sensor_data");
+
+  //   const unsubscribe = onValue(sensorRef, (snapshot) => {
+  //     const data = snapshot.val();
+  //     if (data) {
+  //       const maxMoisture = 4000; // Adjust based on your sensor range
+
+  //       const moistureArray = Object.values(data.soil_moisture || {});
+  //       const temperatureArray = Object.values(data.temperature || {});
+
+  //       const moisturePercentages = moistureArray.map((raw) =>
+  //         Math.round((raw / maxMoisture) * 100)
+  //       );
+
+  //       setTempData(temperatureArray);
+  //       setMoistureData(moisturePercentages);
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
+    // Fetch data from Firebase every hour
+  useEffect(() => {
+    const db = getDatabase();
+    const sensorRef = ref(db, "sensor_data");
+
+    const fetchData = () => {
+      onValue(sensorRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const maxMoisture = 4000; // Adjust based on your sensor range
+
+          const moistureArray = Object.values(data.soil_moisture || {});
+          const temperatureArray = Object.values(data.temperature || {});
+
+          const moisturePercentages = moistureArray.map((raw) =>
+            Math.round((raw / maxMoisture) * 100)
+          );
+
+          setTempData(temperatureArray);
+          setMoistureData(moisturePercentages);
+        }
+      });
+    };
+
+    fetchData(); // initial fetch
+
+    const interval = setInterval(() => {
+      fetchData();
+    }, 60 * 60 * 1000); // every hour
+
+    return () => clearInterval(interval);
+  }, []);
+
   const chartoptions = {
     series: [
       {
         name: "Air Temperature (°C)",
-        data: [16, 15, 15, 14, 14, 15, 18, 21, 24, 26, 28, 29, 30, 31, 30, 29, 27, 25, 22, 20, 19, 18, 17, 16],
+        data: tempData,
       },
       {
         name: "Soil Moisture (%)",
-        data: [45, 44, 44, 43, 42, 42, 41, 40, 39, 38, 37, 37, 36, 36, 37, 38, 39, 40, 42, 43, 44, 45, 45, 45],
+        data: moistureData,
       },
     ],
     options: {
@@ -31,12 +103,7 @@ const SensorChart = () => {
         width: 2,
       },
       xaxis: {
-        categories: [
-          "12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM",
-          "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
-          "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM",
-          "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"
-        ],
+        categories: timeLabels,
         title: {
           text: "Hour of Day",
         },
@@ -48,7 +115,7 @@ const SensorChart = () => {
       },
       tooltip: {
         x: {
-          format: "HH:mm"
+          show: true,
         },
       },
     },
@@ -74,4 +141,3 @@ const SensorChart = () => {
 };
 
 export default SensorChart;
-

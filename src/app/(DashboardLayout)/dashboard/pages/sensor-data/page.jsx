@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Card, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import dynamic from "next/dynamic";
 import useMqtt from "@/app/hooks/useMqtt";
+// import { getDatabase, ref, set } from "firebase/database";
+
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -40,6 +42,8 @@ const SensorData = () => {
       setMoistureHistory((prev) => [...prev.slice(1), soil_moisture]);
     }
   }, [temperature, soil_moisture]);
+
+
 
   // const commonOptions = {
   //   chart: {

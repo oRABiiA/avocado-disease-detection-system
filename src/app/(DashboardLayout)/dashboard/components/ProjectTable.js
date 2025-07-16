@@ -45,11 +45,11 @@ const ProjectTables = () => {
   const getTrendIcon = (trend) => {
     switch (trend) {
       case "up":
-        return "📈";
+        return "Improving 📈";
       case "down":
-        return "📉";
+        return "Deteriorating 📉";
       case "stable":
-        return "➖";
+        return "Stable ➖";
     }
   };
 

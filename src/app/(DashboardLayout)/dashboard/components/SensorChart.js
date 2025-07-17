@@ -2,54 +2,63 @@
 import { useEffect, useState } from "react";
 import { Card, CardBody, CardSubtitle, CardTitle } from "reactstrap";
 import dynamic from "next/dynamic";
-import { getDatabase, ref, onValue, get} from "firebase/database";
+import { ref, get } from "firebase/database";
+import { database } from "@/lib/firebaseConfig";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const SensorChart = () => {
   const [tempData, setTempData] = useState([]);
   const [moistureData, setMoistureData] = useState([]);
+  const [timeLabels, setTimeLabels] = useState([]);
 
-  // Hour labels for 24 hours
-  const timeLabels = [
-    "12 AM", "1 AM", "2 AM", "3 AM", "4 AM", "5 AM",
-    "6 AM", "7 AM", "8 AM", "9 AM", "10 AM", "11 AM",
-    "12 PM", "1 PM", "2 PM", "3 PM", "4 PM", "5 PM",
-    "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"
+  // Define the correct 12-hour clock order
+  const hourOrder = [
+    "12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM",
+    "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM",
   ];
 
-    // Fetch data from Firebase every hour
-  useEffect(() => {
-    const db = getDatabase();
-    const sensorRef = ref(db, "sensor_data");
+  const sortEntriesByHourOrder = (entries) => {
+    return entries.sort((a, b) => {
+      const aIndex = hourOrder.indexOf(a.time_of_upload);
+      const bIndex = hourOrder.indexOf(b.time_of_upload);
+      return aIndex - bIndex;
+    });
+  };
 
-    const fetchData = async () => {
-      try {
-        const snapshot = await get(sensorRef);
-        const data = snapshot.val();
-        if (data) {
-          // const maxMoisture = 4000; // Adjust based on your sensor range
+  const fetchSensorHistory = async () => {
+    const sensorHistoryRef = ref(database, "sensor_data_history");
 
-          const moistureArray = Object.values(data.soil_moisture || {});
-          const temperatureArray = Object.values(data.temperature || {});
+    try {
+      const snapshot = await get(sensorHistoryRef);
+      const data = snapshot.val();
 
-          // const moisturePercentages = moistureArray.map((raw) =>
-          //   Math.round((raw / maxMoisture) * 100)
-          // );
+      if (data) {
+        const entries = Object.values(data);
 
-          setTempData(temperatureArray);
-          setMoistureData(moistureArray);
-        }
-      } catch (error) {
-        console.error("Error fetching sensor data:", error);
+        // Sort by correct hour order (12AM to 11PM)
+        const sorted = sortEntriesByHourOrder(entries);
+
+        const labels = sorted.map((entry) => entry.time_of_upload);
+        const temps = sorted.map((entry) => entry.temperature);
+        const moistures = sorted.map((entry) => entry.moisture);
+
+        setTimeLabels(labels);
+        setTempData(temps);
+        setMoistureData(moistures);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching sensor data history:", error);
+    }
+  };
 
-    fetchData(); // initial fetch
+  useEffect(() => {
+    fetchSensorHistory(); // Initial fetch
 
+    // Update every 24 hours
     const interval = setInterval(() => {
-      fetchData();
-    }, 60 * 60 * 1000); // every hour
+      fetchSensorHistory();
+    }, 1000 * 60 * 60 * 24); // 24 hours
 
     return () => clearInterval(interval);
   }, []);
@@ -104,7 +113,7 @@ const SensorChart = () => {
       <CardBody>
         <CardTitle tag="h5">Sensor Data Overview</CardTitle>
         <CardSubtitle className="text-muted" tag="h6">
-          24-Hour Readings from Air & Soil Sensors - Section A
+          24-Hour Readings from Air & Soil Sensors
         </CardSubtitle>
         <Chart
           type="area"

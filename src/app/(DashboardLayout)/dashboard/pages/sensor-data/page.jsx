@@ -130,7 +130,7 @@ const SensorData = () => {
         <CardBody>
           <CardTitle tag="h5">Air Temperature</CardTitle>
           <CardSubtitle className="text-muted mb-3" tag="h6">
-            Live Air Temperature Sensor Data - Section A
+            Live Air Temperature Sensor Data
           </CardSubtitle>
           <Chart
             type="area"
@@ -146,7 +146,7 @@ const SensorData = () => {
         <CardBody>
           <CardTitle tag="h5">Soil Moisture</CardTitle>
           <CardSubtitle className="text-muted mb-3" tag="h6">
-            Live Soil Moisture Sensor Data - Section A
+            Live Soil Moisture Sensor Data
           </CardSubtitle>
           <Chart
             type="area"

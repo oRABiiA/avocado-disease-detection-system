@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardBody, CardSubtitle, CardTitle } from "reactstrap";
 import dynamic from "next/dynamic";
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, get} from "firebase/database";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -18,53 +18,31 @@ const SensorChart = () => {
     "6 PM", "7 PM", "8 PM", "9 PM", "10 PM", "11 PM"
   ];
 
-  // // Fetch data from Firebase every hour
-  // useEffect(() => {
-  //   const db = getDatabase();
-  //   const sensorRef = ref(db, "sensor_data");
-
-  //   const unsubscribe = onValue(sensorRef, (snapshot) => {
-  //     const data = snapshot.val();
-  //     if (data) {
-  //       const maxMoisture = 4000; // Adjust based on your sensor range
-
-  //       const moistureArray = Object.values(data.soil_moisture || {});
-  //       const temperatureArray = Object.values(data.temperature || {});
-
-  //       const moisturePercentages = moistureArray.map((raw) =>
-  //         Math.round((raw / maxMoisture) * 100)
-  //       );
-
-  //       setTempData(temperatureArray);
-  //       setMoistureData(moisturePercentages);
-  //     }
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
-
     // Fetch data from Firebase every hour
   useEffect(() => {
     const db = getDatabase();
     const sensorRef = ref(db, "sensor_data");
 
-    const fetchData = () => {
-      onValue(sensorRef, (snapshot) => {
+    const fetchData = async () => {
+      try {
+        const snapshot = await get(sensorRef);
         const data = snapshot.val();
         if (data) {
-          const maxMoisture = 4000; // Adjust based on your sensor range
+          // const maxMoisture = 4000; // Adjust based on your sensor range
 
           const moistureArray = Object.values(data.soil_moisture || {});
           const temperatureArray = Object.values(data.temperature || {});
 
-          const moisturePercentages = moistureArray.map((raw) =>
-            Math.round((raw / maxMoisture) * 100)
-          );
+          // const moisturePercentages = moistureArray.map((raw) =>
+          //   Math.round((raw / maxMoisture) * 100)
+          // );
 
           setTempData(temperatureArray);
-          setMoistureData(moisturePercentages);
+          setMoistureData(moistureArray);
         }
-      });
+      } catch (error) {
+        console.error("Error fetching sensor data:", error);
+      }
     };
 
     fetchData(); // initial fetch

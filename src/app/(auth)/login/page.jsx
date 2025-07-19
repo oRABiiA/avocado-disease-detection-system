@@ -73,19 +73,6 @@ const LoginPage = ({ onLoginSuccess }) => {
     <Container fluid className="vh-100 d-flex align-items-center">
       <Row className="w-100">
         {/* Left image section */}
-        {/* <Col md="6" className="d-none d-md-block p-0">
-          <div style={{ height: "100vh", position: "relative" }}>
-            <Image
-              src={loginImage}
-              alt="Farm Login"
-              layout="fill"
-              objectFit="cover"
-              priority
-            />
-          </div>
-        </Col> */}
-
-        {/* Left image section */}
         <Col md="6" className="d-none d-md-block p-0">
           <div
             style={{

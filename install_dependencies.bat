@@ -4,4 +4,4 @@ npm install
 npm install classnames
 npm install @coreui/react
 npm install
-echo All dependencies installeds.
+echo All dependencies installed.

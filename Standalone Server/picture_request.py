@@ -24,7 +24,7 @@ def capture_photo_loop():
         time.sleep(600)  # wait 10 minutes (600 seconds)
 
 # Start the photo-capturing loop in the background
-#threading.Thread(target=capture_photo_loop, daemon=True).start()
+threading.Thread(target=capture_photo_loop, daemon=True).start()
 
 # Serve the latest photo
 @app.route("/photo")

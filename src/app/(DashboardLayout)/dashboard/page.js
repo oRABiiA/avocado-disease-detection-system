@@ -91,7 +91,7 @@ export default function Dashboard() {
     // Only check when values are valid
     if(temperature === null) return;
 
-    if (temperature < 15 || temperature > 30) {
+    if (temperature < 15 || temperature > 40) {
       addAlert("🚨 Air temperature is outside the optimal range!");
     }
   }, [temperature]);

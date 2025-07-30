@@ -44,7 +44,6 @@ The farmer can:
 3. Get treatment recommendations.
 4. Manage alerts, history, and calendar events.
 
-*(Figures 7 & 8 illustrate the process, and Table 1 lists the sensors.)*
 
 ---
 

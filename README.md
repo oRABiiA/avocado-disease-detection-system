@@ -62,5 +62,5 @@ The farmer can:
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/avocado-disease-detection.git
-cd avocado-disease-detection
+git clone https://github.com/oRABiiA/avocado-disease-detection-system.git
+cd avocado-disease-detection-system

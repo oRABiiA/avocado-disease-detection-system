@@ -60,7 +60,7 @@ The farmer can:
 
 ## ⚙️ Installation & Setup
 
-### 1️⃣ Clone the Repository
+### Clone the Repository
 ```bash
 git clone https://github.com/oRABiiA/avocado-disease-detection-system.git
 cd avocado-disease-detection-system
